@@ -5,10 +5,7 @@ Boolean buildAborted = false
 /**
  * Abort the build with a message
  */
-def abortBuild = { String abortMessage ->
-    buildAborted = true
-    error(abortMessage)
-}
+
 pipeline {
     agent any
     stages {
@@ -16,8 +13,6 @@ pipeline {
             when { not { branch 'private/*' } }
             steps {
                 script {
-                    buildAborted = true
-                    // abortBuild("This build was skipped because it was a private branch")
                     currentBuild.result = 'SUCCESS'
                     return
                 }
