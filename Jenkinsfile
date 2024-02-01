@@ -16,34 +16,36 @@ pipeline {
     }
     stages {
         stage('One') {
+            when { not { branch 'private/*' } }
             steps {
-                echo "FailOrAbort = ${params.FailOrAbort}"
-                script {
-                    try {
-                        echo 'Doing stage 1'
-                        if(params.FailOrAbort == 'fail') {
-                            echo "This build will fail"
-                            error("Build has failed")
-                        }
-                        else if(params.FailOrAbort == 'abort') {
-                            echo "This build will abort with SUCCESS status"
-                            abortBuild("This build was aborted")
-                        }
-                        else {
-                            echo "This build is a success"
-                        }
-                        echo "Stage one steps..."
-                    }
-                    catch(e) {
-                        echo "Error in Stage 1: ${e.getMessage()}"
-                        if(buildAborted) {
-                            echo "It was aborted, ignoring error status"
-                        }
-                        else {
-                            error(e.getMessage())
-                        }
-                    }
-                }
+                abortBuild("This build was skipped because it was a private branch")
+                // error("Build has skipped")
+                // script {
+                //     try {
+                //         echo 'Doing stage 1'
+                //         if(params.FailOrAbort == 'fail') {
+                //             echo "This build will fail"
+                //             error("Build has failed")
+                //         }
+                //         else if(params.FailOrAbort == 'abort') {
+                //             echo "This build will abort with SUCCESS status"
+                //             abortBuild("This build was aborted")
+                //         }
+                //         else {
+                //             echo "This build is a success"
+                //         }
+                //         echo "Stage one steps..."
+                //     }
+                //     catch(e) {
+                //         echo "Error in Stage 1: ${e.getMessage()}"
+                //         if(buildAborted) {
+                //             echo "It was aborted, ignoring error status"
+                //         }
+                //         else {
+                //             error(e.getMessage())
+                //         }
+                //     }
+                // }
             }
             post {
                 failure {
