@@ -7,10 +7,10 @@ pipeline {
     }
     stages {
         stage('first-stage'){
-            when { anyOf { branch 'private/*' } }
-                steps{
-                    echo 'Skipped full build.'
-                }
+            when { not { branch 'private/*' } }
+            steps {
+                echo 'Skipped full build.'
+            }
         }
         stage('second-stage') {
             when {
