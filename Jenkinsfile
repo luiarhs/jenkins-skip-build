@@ -11,6 +11,7 @@ pipeline {
             steps {
                 script {
                     currentBuild.getRawBuild().getExecutor().interrupt(Result.SUCCESS)
+                    sleep(1)
                 }
             }
         }
