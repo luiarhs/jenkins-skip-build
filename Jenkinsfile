@@ -11,15 +11,13 @@ def abortBuild = { String abortMessage ->
 }
 pipeline {
     agent any
-    parameters {
-        string(name: 'FailOrAbort', defaultValue: 'ok', description: "Enter 'fail','abort' or 'ok'")
-    }
     stages {
         stage('One') {
             when { not { branch 'private/*' } }
             steps {
-                abortBuild("This build was skipped because it was a private branch")
-                // error("Build has skipped")
+                buildAborted = true
+                // abortBuild("This build was skipped because it was a private branch")
+                error("Build has skipped")
                 // script {
                 //     try {
                 //         echo 'Doing stage 1'
