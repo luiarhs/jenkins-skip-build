@@ -15,9 +15,11 @@ pipeline {
         stage('One') {
             when { not { branch 'private/*' } }
             steps {
-                buildAborted = true
-                // abortBuild("This build was skipped because it was a private branch")
-                error("Build has skipped")
+                script {
+                    buildAborted = true
+                    // abortBuild("This build was skipped because it was a private branch")
+                    error("Build has skipped")
+                }
                 // script {
                 //     try {
                 //         echo 'Doing stage 1'
