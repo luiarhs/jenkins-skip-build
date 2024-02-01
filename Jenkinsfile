@@ -18,7 +18,8 @@ pipeline {
                 script {
                     buildAborted = true
                     // abortBuild("This build was skipped because it was a private branch")
-                    error("Build has skipped")
+                    currentBuild.result = 'SUCCESS'
+                    return
                 }
                 // script {
                 //     try {
@@ -48,7 +49,7 @@ pipeline {
                 // }
             }
             post {
-                failure {
+                always {
                     echo "Stage 1 failed"
                 }
             }
@@ -78,20 +79,17 @@ pipeline {
         always  {
             echo "Build completed. currentBuild.result = ${currentBuild.result}"
         }
-        failure {
-            echo "Build failed"
-        }
-        success {
-            script {
-                if(buildAborted) {
-                    echo "Build was aborted"
-                } else {
-                    echo 'Build was a complete success'
-                }
-            }
-        }
-        unstable {
-            echo 'Build has gone unstable'
-        }
+        // success {
+        //     script {
+        //         if(buildAborted) {
+        //             echo "Build was aborted"
+        //         } else {
+        //             echo 'Build was a complete success'
+        //         }
+        //     }
+        // }
+        // unstable {
+        //     echo 'Build has gone unstable'
+        // }
     }
 }
