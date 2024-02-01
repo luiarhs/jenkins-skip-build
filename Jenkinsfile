@@ -5,11 +5,13 @@ pipeline {
         // Timeout counter starts AFTER agent is allocated
         timeout(time: 1, unit: 'SECONDS')
     }
-    when { not { branch 'private/*' } }
     stages {
         stage('first-stage'){
+            when { not { branch 'private/*' } }
             steps {
-                echo 'Skipped full build.'
+                script {
+                    currentBuild.getRawBuild().getExecutor().interrupt(Result.SUCCESS)
+                }
             }
         }
         stage('second-stage') {
