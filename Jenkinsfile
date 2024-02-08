@@ -7,6 +7,7 @@ Boolean buildAborted = false
 */
 // check if the branch name starts with 'private/' and skip the build if it does
 if (env.BRANCH_NAME ==~ /^private\//) {
+    echo env.BRANCH_NAME
     echo "NetBox private/* branches are not built by default."
     currentBuild.result = 'SUCCESS'
     return
