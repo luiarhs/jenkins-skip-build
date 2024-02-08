@@ -4,17 +4,25 @@
 Boolean buildAborted = false
 /**
  * Abort the build with a message
- */
+*/
+// check if the branch name starts with 'private/' and skip the build if it does
+if (env.BRANCH_NAME ==~ /^private\//) {
+    echo "NetBox private/* branches are not built by default."
+    currentBuild.result = 'SUCCESS'
+    return
+}
 
 pipeline {
     agent any
     stages {
         stage('One') {
-            when { not { branch 'private/*' } }
+            // when { not { branch 'private/*' } }
             steps {
                 script {
-                    currentBuild.result = 'SUCCESS'
-                    return
+                    // buildAborted = true
+                    // currentBuild.result = 'SUCCESS'
+                    // return
+                    echo 'Doing stage 1'
                 }
                 // script {
                 //     try {
